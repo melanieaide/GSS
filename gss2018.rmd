@@ -81,7 +81,7 @@ chisqtestGC(table1)
 fisher.test(table1)
 ```
 
-We got the data from the cat~cat file. The null hypothesis was rejected due to the p-value=0.0202. Meaning that people were more likely to favor capital punishment, 1.25. Gun ownership and capital opinion are related.
+We got the data from the cat~cat file. The null hypothesis was rejected due to the p-value=0.0202. Meaning that people were more likely to favor capital punishment, 75.68. Gun ownership and capital opinion are related.
 
 #  Question 2
 
@@ -89,9 +89,9 @@ We got the data from the cat~cat file. The null hypothesis was rejected due to t
 
 Is there a difference in years of education (EDUC) between the those who did or did not vote in 2012 (VOTE12)?
 
-$H_0$: There is a difference in years of education between those who did vote in 2012.
+$H_0$: There is no difference in years of education between those who did and didn't vote in 2012
 
-$H_A$: There is a difference in years of education between those who did not vote in 2012.
+$H_A$: There is a difference in years of education between those who did and didn't vote in 2012.
 
 
 
@@ -112,6 +112,7 @@ $H_A$: There is a difference in years of education between those who did not vot
 ```{r}
 boxplot(EDUC~VOTE12,data=GSSdata)
 ```
+The boxplot shows that people that voted in 2012 had an average of 16 years of education and people that didn't vote had an average of 13 years.
 
 #### Numerical Descriptive Results
 
@@ -121,21 +122,26 @@ boxplot(EDUC~VOTE12,data=GSSdata)
 favstats(EDUC~VOTE12,data=GSSdata)
 ```
 
+ People who voted in 2012 on average had 16 years of education.
 ### Inferential Results
 
-<!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+<!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfy the assumptions and is appropriate to answer the research question!-->
 
 ```{r}
 t.test(EDUC~VOTE12,data=GSSdata)
 ```
 
-We reject the null hypothesis.
+We reject the null hypothesis. There is a difference in years of education between those who did and didn't vote in 2012 because there was 15.72656 people that voted and 13.42000 people that didn't vote.
 
 #  Question 3
 
 <!--In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?!-->
 
 Determine if a persons performance on the wordsum test (WORDSUM) is independent of their level of schooling (DEGREE).
+
+$H_0$: A persons performance on the WORDSUM are related of their level of schooling DEGREE.
+
+$H_A$: A persons performance on the WORDSUM are not related of their level of schooling DEGREE.
 
 ## Methods
 
@@ -151,16 +157,43 @@ Determine if a persons performance on the wordsum test (WORDSUM) is independent 
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
+```{r}
+plot(WORDSUM~DEGREE,data=GSSdata)
+```
+
+The box plots show a slight difference in data for each group. 
+
 #### Numerical Descriptive Results
 
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+```{r}
+favstats(WORDSUM~DEGREE,data=GSSdata)
+```
+The table reflects that Junior college and bachelor are approximately the same mean. Where the graduates is much higher and the LT High school and high school is significantly lower.
 
 ### Inferential Results
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
 
 
+```{r}
+model1 <- aov(WORDSUM~DEGREE,data=GSSdata)
+summary.aov(model1)
+```
+We reject the null hypothesis since he p-value is lower than 0.5. There is a difference between the average score on the WORDSUM  and the EDUC. 
+
+```{r}
+plot(TukeyHSD(model1))
+```
+
+
 # Discussion and Conclusion
 
-<!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variavbles causes the other, or whether they perhasps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
+<!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variables causes the other, or whether they perhaps are related for some other reason.  Watch the chapter 6 videos from the George Town videos collection.!-->
 
+Q1: In conclusion the null hypothesis was rejected due to the p-value=0.0202. Meaning that people were more likely to favor capital punishment, 75.68. Gun ownership and capital opinion are related.
+
+Q2:In conclusion we rejected the null hypothesis. There is a difference in years of education between those who did and didn't vote in 2012 because there was 15.72656 people that voted and 13.42000 people that didn't vote.
+
+Q3: In conclusion we reject the null hypothesis since he p-value is lower than 0.5. There is a difference between the average score on the WORDSUM  and the EDUC. Junior college and bachelor are approximately the same mean. Where the graduates is much higher and the LT High school and high school is significantly lower.
